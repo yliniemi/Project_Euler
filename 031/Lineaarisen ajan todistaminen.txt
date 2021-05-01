@@ -28,7 +28,7 @@ CC(cents, 7) kertoo kuinka monella tavalla cents senttiä saadaan kolikoilla [1]
 
 Lasketaan kuinka monella eri tavalla 201 senttiä voidaan saada meidän käytössä olevilla kolikoilla.
 
-CC(201, 0) = CC(201 - 200, 0) + CC(201 - 100, 1) + CC(201 - 50, 2) + CC(201 - 20, 3) + CC(201 - 10, 4) + CC(201 - 5, 5) + CC(201 - 2, 6) + CC(201 - 7)
+CC(201, 0) = CC(201 - 200, 0) + CC(201 - 100, 1) + CC(201 - 50, 2) + CC(201 - 20, 3) + CC(201 - 10, 4) + CC(201 - 5, 5) + CC(201 - 2, 6) + CC(201 - 1, 7)
 
 CC(201) = CC(1, 0) + CC(101, 1) + CC(151, 2) + CC(181, 3) + CC(191, 4) + CC(196, 5) + CC(199, 6) + CC(200, 7)
 
@@ -41,18 +41,18 @@ CC(201) = 75173
 
 Yleinen versio tästä todistuksesta on:
 
-CC(n, 0) = CC(n - 200, 0) + CC(n - 100, 1) + CC(n - 50, 2) + CC(n - 20, 3) + CC(n - 10, 4) + CC(n - 5, 5) + CC(n - 2, 6) + CC(n - 7)
+CC(n, 0) = CC(n - 200, 0) + CC(n - 100, 1) + CC(n - 50, 2) + CC(n - 20, 3) + CC(n - 10, 4) + CC(n - 5, 5) + CC(n - 2, 6) + CC(n - 1, 7)
 Jos me tiedetään vastaukset kaikkiin CC(n - 1, 0 - 7), niin meillä on jokainen nuista tuloksista jo taulukossa ja niiden summaamiseen menee vakio aika.
 
 Melkein meinas unohtua. Meidän pitää tehdä nämä laskelmat kaikilla listaindekseillä, jotta me saadaan lista täytettyä täydellisesti. Eli tässä on kaikki laskelmat, mitä pitää tehdä kun lasketaan seuraavat arvot taulukkoon:
-CC(n, 0) = CC(n - 200, 0) + CC(n - 100, 1) + CC(n - 50, 2) + CC(n - 20, 3) + CC(n - 10, 4) + CC(n - 5, 5) + CC(n - 2, 6) + CC(n - 7)
-CC(n, 1) = CC(n - 100, 1) + CC(n - 50, 2) + CC(n - 20, 3) + CC(n - 10, 4) + CC(n - 5, 5) + CC(n - 2, 6) + CC(n - 7)
-CC(n, 2) = CC(n - 50, 2) + CC(n - 20, 3) + CC(n - 10, 4) + CC(n - 5, 5) + CC(n - 2, 6) + CC(n - 7)
-CC(n, 3) = CC(n - 20, 3) + CC(n - 10, 4) + CC(n - 5, 5) + CC(n - 2, 6) + CC(n - 7)
-CC(n, 4) = CC(n - 10, 4) + CC(n - 5, 5) + CC(n - 2, 6) + CC(n - 7)
-CC(n, 5) = CC(n - 5, 5) + CC(n - 2, 6) + CC(n - 7)
-CC(n, 6) = CC(n - 2, 6) + CC(n - 7)
-CC(n, 7) = CC(n - 7)
+CC(n, 0) = CC(n - 200, 0) + CC(n - 100, 1) + CC(n - 50, 2) + CC(n - 20, 3) + CC(n - 10, 4) + CC(n - 5, 5) + CC(n - 2, 6) + CC(n - 1, 7)
+CC(n, 1) = CC(n - 100, 1) + CC(n - 50, 2) + CC(n - 20, 3) + CC(n - 10, 4) + CC(n - 5, 5) + CC(n - 2, 6) + CC(n - 1, 7)
+CC(n, 2) = CC(n - 50, 2) + CC(n - 20, 3) + CC(n - 10, 4) + CC(n - 5, 5) + CC(n - 2, 6) + CC(n - 1, 7)
+CC(n, 3) = CC(n - 20, 3) + CC(n - 10, 4) + CC(n - 5, 5) + CC(n - 2, 6) + CC(n - 1, 7)
+CC(n, 4) = CC(n - 10, 4) + CC(n - 5, 5) + CC(n - 2, 6) + CC(n - 1, 7)
+CC(n, 5) = CC(n - 5, 5) + CC(n - 2, 6) + CC(n - 1, 7)
+CC(n, 6) = CC(n - 2, 6) + CC(n - 1, 7)
+CC(n, 7) = CC(n - 1, 7)
 Me huomataan että nämä laskelmat kannattaa tehdä päivastaisessa järjestyksessä. Tästä näkee selvästi että
 CC(cents, listIndex) = CC(cents - biggestCoin, listIndex) + CC(cents, linstIndex - 1)
 
