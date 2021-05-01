@@ -1,0 +1,67 @@
+Project Euler 031 - Lineaarisen suoritusajan todistaminen:
+
+
+Haskell versio:
+coinCombinations :: Int -> [Int]
+coinCombinations cents coinList
+  | cents == 0 = 1
+  | coinList == [] = 0
+  | cents < (head coinList) = coinCombinations cents (tail coinList)
+  | True = coinCombinations (cents - head coinList) coinList + coinCombinations cents (tail coinList)
+
+coinCombinations 200 [200, 100, 50, 20 , 10, 5, 2, 1]
+
+
+CC(cents, listIndex) on lähes sama funtio. Siinä annetaan listan sijaan listan indeksi. Ja sitten jokainen tulos tallennetaan taulukkoon. Seuraavan kerran kun funtio ajetaan samoilla argumenteillä, se antaa sen vastauksen, joka laskettiin jo aiemmin.
+
+
+Oletetaan että me ollaan laskettu jo kaikkien kolikkokombinaatioiden määrä, jolla saadaa 200 senttiä ja että ollaan laskettu vastaukset myös kaikille sitä pienemmille senttimäärille. Nämä laskelmat tehdään kahdeksalle eri kolikkolistalle. Listan sijaan me ilmoitetaan listan indeksi funktiossa CC. CC tukee sanoista coin combinations.
+
+CC(cents, 0) kertoo kuinka monella tavalla cents senttiä saadaan kolikoilla [200, 100, 50, 20, 10, 5, 2, 1]
+CC(cents, 1) kertoo kuinka monella tavalla cents senttiä saadaan kolikoilla [100, 50, 20, 10, 5, 2, 1]
+CC(cents, 2) kertoo kuinka monella tavalla cents senttiä saadaan kolikoilla [50, 20, 10, 5, 2, 1]
+CC(cents, 3) kertoo kuinka monella tavalla cents senttiä saadaan kolikoilla [20, 10, 5, 2, 1]
+CC(cents, 4) kertoo kuinka monella tavalla cents senttiä saadaan kolikoilla [10, 5, 2, 1]
+CC(cents, 5) kertoo kuinka monella tavalla cents senttiä saadaan kolikoilla [5, 2, 1]
+CC(cents, 6) kertoo kuinka monella tavalla cents senttiä saadaan kolikoilla [2, 1]
+CC(cents, 7) kertoo kuinka monella tavalla cents senttiä saadaan kolikoilla [1]
+
+Lasketaan kuinka monella eri tavalla 201 senttiä voidaan saada meidän käytössä olevilla kolikoilla.
+
+CC(201, 0) = CC(201 - 200, 0) + CC(201 - 100, 1) + CC(201 - 50, 2) + CC(201 - 20, 3) + CC(201 - 10, 4) + CC(201 - 5, 5) + CC(201 - 2, 6) + CC(201 - 7)
+
+CC(201) = CC(1, 0) + CC(101, 1) + CC(151, 2) + CC(181, 3) + CC(191, 4) + CC(196, 5) + CC(199, 6) + CC(200, 7)
+
+Koska me tiedetään kaikki vastaukset CC(1-200, 0-7), niin me voidaan katsoa niiden arvot suoraan taulukosta
+
+CC(201) = 1 + 4710 + 21941 + 33100 + 13320 + 2000 + 100 + 1
+
+CC(201) = 75173
+
+
+Yleinen versio tästä todistuksesta on:
+
+CC(n, 0) = CC(n - 200, 0) + CC(n - 100, 1) + CC(n - 50, 2) + CC(n - 20, 3) + CC(n - 10, 4) + CC(n - 5, 5) + CC(n - 2, 6) + CC(n - 7)
+Jos me tiedetään vastaukset kaikkiin CC(n - 1, 0 - 7), niin meillä on jokainen nuista tuloksista jo taulukossa ja niiden summaamiseen menee vakio aika.
+
+Melkein meinas unohtua. Meidän pitää tehdä nämä laskelmat kaikilla listaindekseillä, jotta me saadaan lista täytettyä täydellisesti. Eli tässä on kaikki laskelmat, mitä pitää tehdä kun lasketaan seuraavat arvot taulukkoon:
+CC(n, 0) = CC(n - 200, 0) + CC(n - 100, 1) + CC(n - 50, 2) + CC(n - 20, 3) + CC(n - 10, 4) + CC(n - 5, 5) + CC(n - 2, 6) + CC(n - 7)
+CC(n, 1) = CC(n - 100, 1) + CC(n - 50, 2) + CC(n - 20, 3) + CC(n - 10, 4) + CC(n - 5, 5) + CC(n - 2, 6) + CC(n - 7)
+CC(n, 2) = CC(n - 50, 2) + CC(n - 20, 3) + CC(n - 10, 4) + CC(n - 5, 5) + CC(n - 2, 6) + CC(n - 7)
+CC(n, 3) = CC(n - 20, 3) + CC(n - 10, 4) + CC(n - 5, 5) + CC(n - 2, 6) + CC(n - 7)
+CC(n, 4) = CC(n - 10, 4) + CC(n - 5, 5) + CC(n - 2, 6) + CC(n - 7)
+CC(n, 5) = CC(n - 5, 5) + CC(n - 2, 6) + CC(n - 7)
+CC(n, 6) = CC(n - 2, 6) + CC(n - 7)
+CC(n, 7) = CC(n - 7)
+Me huomataan että nämä laskelmat kannattaa tehdä päivastaisessa järjestyksessä. Tästä näkee selvästi että
+CC(cents, listIndex) = CC(cents - biggestCoin, listIndex) + CC(cents, linstIndex - 1)
+
+Me voidaan itseasiassa laskea kaikki suurinta kolikkoa suuremmat senttimäärät suoraan tällä kaavalla. Suurinta kolikko pienempiä tuloksia ei voi laskea tällä kaavalla, koska tämä kaava yrittäisi onkia lukuja taulukosta negatiivisilla indekseillä.
+
+Mutta joo. Tuo minun algoritmi sieventyy tuohon yllä olevaan muotoon kaikilla senttimäärillä jotka on yli maksimikolikon.
+Kävin käsin tuon haarautumisen läpi ja tuollainen kaava sieltä tuli.
+
+Jos me lasketaan kuinka monella eri tavalla 1000 senttiä voidaan laskea, meidän pitää täyttää taulukko 1000 asti. Jokainen uusi arvo saadaan vakiotyöllä. Tämän takia suoritusaika on lineaarinen.
+
+Riittääkö tämä todisteeksi? En ole todistanut asioita kovin paljoa formaalisti. Minun mielestä tässä on kaikki riittävä informaatio.
+
