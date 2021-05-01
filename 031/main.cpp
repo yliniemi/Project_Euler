@@ -127,17 +127,16 @@ int main()
         if (cents >= combinationsSize) cents = combinationsSize - 1;
         if (cents >= biggestTestable) cents = biggestTestable;
         if (cents >= biggestTested && combinations[cents][0] == empty)
-            for (long long int i = biggestTested; i <= cents; i++)
+            for (long long int i = biggestTested; i <= cents; i++)              // i put this loop here because calling coinCombinations directly with these huge numbers made the program run out of stack
             {
-	        // coinCombinations(i, 0);
-	        if (coinCombinations(i, 0) < coinCombinations(i - 1, 0))
+	        if (coinCombinations(i, 0) < coinCombinations(i - 1, 0))        // this test is here to alert us if our 128 bit unsigned integer has overflows
 	        {
 	            cents = i - 1;
                     biggestTestable = cents;
 	        }
 	    }
         biggestTested = cents;
-        cout << "\n" << cents << " cents and be made with "
+        cout << "\n" << cents << " cents can be made with "
              << __128intToString(coinCombinations(cents, coinIndex)) << " coin combinations\n";
     }
 
