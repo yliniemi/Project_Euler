@@ -20,3 +20,15 @@ Ingnore these. They are just random values I calculated with my algorithm to tes
 FUNNU MONEY
 50000000 cents and be made with 416670729180666686791677250001 coin combinations
 100000000 cents and be made with 13333398333445333413833354500001 coin combinations
+
+   23024067 cents can be made with 340282304947361641001708798401258691048 coin combinations
+   23024067 cents can be made with 340282304947361641001708798401258691048 coin combinations
+  100000000 cents can be made with 13333398333445333413833354500001 coin combinations
+ 1000000000 cents can be made with 1333333983333445333341383333545000001 coin combinations
+ 3029563974 cents can be made with 340282364830526687980705904077852610800 coin combinations
+
+
+  23024067 cents can be made with 340282304947361641001708798401258691048 coin combinations
+3029563974 cents can be made with 340282364830526687980705904077852610800 coin combinations
+
+
