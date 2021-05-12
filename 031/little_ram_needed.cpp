@@ -73,12 +73,6 @@ __uint128_t coinCombinations(long long int cents, long long int coinIndex)
         return 0;
     }
 
-    if (coinIndex == coinArraySize - 1)
-    {
-        if (cents % coinArray[coinIndex] == 0) return newResult(cents, coinIndex, 1);
-        else return newResult(cents, coinIndex, 0);
-    }
-
     if (cents < coinArray[coinIndex]) return newResult(cents, coinIndex,
                 coinCombinations(cents, coinIndex + 1));
 
