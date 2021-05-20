@@ -24,6 +24,7 @@ coinCombinations 200 [200, 100, 50, 20 , 10, 5, 2, 1]
 
 #include <iostream>
 #include <string>
+#include <chrono>
 
 using namespace std;
 
@@ -88,6 +89,12 @@ string __128intToString(__uint128_t bigNumber)
     return __128intToString(bigNumber / 10) + to_string(smallNumber);
 }
 
+long long int timeSinceEpochMillisec()
+{
+  using namespace std::chrono;
+  return duration_cast<milliseconds>(system_clock::now().time_since_epoch()).count();
+}
+
 int main()
 {
     string input = "placeholder";
@@ -143,16 +150,24 @@ int main()
 	cout << "\nCoin list index 0 - " << coinArraySize - 1 << " (hint: 0)\n";
         getline (cin, input);
 	int coinIndex = stoi(input);
+        long long int startingTime = timeSinceEpochMillisec();
         for (long long int i = 10; i <= cents; i++)              // i put this loop here because calling coinCombinations directly with these huge numbers made the program run out of stack
         {
 	    if (coinCombinations(i, 0) < coinCombinations(i - 1, 0)
                 && coinCombinations(i - 1, 0) > empty / 4 * 3 && coinCombinations(i, 0) < empty / 2)        // this test is here to alert us if our 128 bit unsigned integer has overflows
 	    {
                 cents = i - 1;
+                cout << "\nThe answer is bigger than 2^128 so I'll give you the biggest answer that doesn't overflow";
             }
         }
         cout << "\n" << cents << " cents can be made with "
              << __128intToString(coinCombinations(cents, coinIndex)) << " coin combinations\n";
+        long long int elapsedTime = timeSinceEpochMillisec() - startingTime;
+        cout << "Calculation took: " << elapsedTime << " ms\n";
+        if (elapsedTime >= 1000) cout << "That's ";
+        if (elapsedTime >= 1000 * 60 * 60) cout << (elapsedTime / (1000 * 60 * 60)) << " hours, ";
+        if (elapsedTime >= 1000 * 60) cout << (elapsedTime / (1000 * 60)) % 60 << " minutes and ";
+        if (elapsedTime >= 1000) cout << (elapsedTime / 1000) % 60 << " seconds\n";
     }
 
     cout << "\nDone counting coins!\n";
